@@ -26,12 +26,12 @@ app.get("/hello", (req, res) => {
 })
 
 app.get("/urls",(req, res) => {
-    let templateVars = {urls:urDatabase};
+    let templateVars = { urls: urDatabase};
     res.render("urls_index", templateVars);
 });
 
-app.get("/urls/:shortURL", (req, res) =>{
+app.get("/urls/:shortURL", (req, res) => {
     const shortUrl = req.params.shortURL
-    let templateVars = {shortUrl, longURL:urDatabase[shortUrl]};
+    let templateVars = { shortUrl, longURL: urDatabase[shortUrl] };
     res.render("urls_show", templateVars)
 })
