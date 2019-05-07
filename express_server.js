@@ -15,6 +15,10 @@ app.listen(PORT,() => {
     console.log(`Example app litsening on port ${PORT}!`);
 });
 
-app.get("/url.json",(req, res) => {
-    res.json(urlDatabase);
+app.get("/urls.json",(req, res) => {
+    res.json(urDatabase);
 });
+
+app.get("/hello", (req, res) =>{
+    res.send("<html><body>Hello <b>World</b></body></html>\n")
+})
