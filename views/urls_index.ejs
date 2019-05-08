@@ -14,13 +14,18 @@
     <h3>My URLS</h3>
     <a href="https://www.google.com/">Create New TinyURL</a>
     <div>
+
         <ol>
-            <% for(url in urls) { %>
+            <% for(let url in urls) { %>
                 <li><%= url + ": " + urls[url] %></li>
+                <form method="POST" action="/urls/<%= url %>/delete">
+                    <input type="submit" value="Delete" >
+                </form>
            <% } %>
         </ol>
-        <!-- <p><strong>-b2xVn2:</strong><em>http://www.lighthouselabs.ca</em></p>
-        <p><strong>-9sm5xK:</strong><em>http://google.com</em></p> -->
+
+        
+        
     </div>
 
     

@@ -15,6 +15,12 @@ app.post("/urls", (req, res) => {
     res.redirect("/urls")
 });
 
+app.post('/urls/:shortURL/delete', (req, res) =>{
+    const shortURL = req.params.shortURL
+    delete urDatabase[shortURL]
+    res.redirect("/urls")
+})
+
 app.get("/u/:shortURL", (req, res) => {
     const longURL = urDatabase[req.params.shortURL]
     res.redirect(longURL);
