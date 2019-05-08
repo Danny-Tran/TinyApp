@@ -1,14 +1,24 @@
 var express = require('express');
 var app = express();
 var PORT = 8080;
-var generateRandomString = () => Math.random().toString(36).substring(2,8)
-// function generateRandomString(){
-//     var random = Math.random().toString(36).substring(2,8);
-//     return random;
-//   }
- 
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({extended: true}));
+var generateRandomString = () => Math.random().toString(36).substring(2,8)
+
+app.post("/urls", (req, res) => {
+    // console.log(req.body);  // Log the POST request body to the console
+    var shortstring = generateRandomString();
+    var longstring = req.body.longURL;
+    urDatabase[shortstring] = longstring;
+    console.log(urDatabase);
+    // res.send('ok');         // Respond with 'Ok' (we will replace this)
+    res.redirect("/urls")
+});
+
+app.get("/u/:shortURL", (req, res) => {
+    // const longURL = ...
+    res.redirect("/urls" + shortstring);
+  });
 
 app.get("/urls/new", (req, res) => {
     res.render("urls_new");
@@ -47,9 +57,6 @@ app.get("/urls/:shortURL", (req, res) => {
     res.render("urls_show", templateVars);
 });
 
-app.post("/urls", (req, res) => {
-    console.log(req.body);  // Log the POST request body to the console
-    res.send("Ok");         // Respond with 'Ok' (we will replace this)
-  });
+
 
 
