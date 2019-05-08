@@ -14,13 +14,13 @@
         <h3>My URLS</h3>
         <a href="https://www.google.com/">Create New TinyURL</a>
     <div>
-        <h4>TinyURL for <%= longURL %></h4>
-        <h4><%= shortUrl%></h4>
-            
-        
+      <h4><%= shortUrl %>   <%= longURL %></h4>
+    </div>
 
-              
-        
+    <div>
+        <p> <form method="POST" action="/urls/<%= shortUrl %>">
+          <input class="form-control" type="text" name="longURL" placeholder="http://" style="width: 300px; margin: 1em">
+          <input type="submit" value="Submit" > </form></p>
     </div>
 
 </body>
