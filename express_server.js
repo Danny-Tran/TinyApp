@@ -16,8 +16,8 @@ app.post("/urls", (req, res) => {
 });
 
 app.get("/u/:shortURL", (req, res) => {
-    // const longURL = ...
-    res.redirect("/urls" + shortstring);
+    const longURL = urDatabase[req.params.shortURL]
+    res.redirect(longURL);
   });
 
 app.get("/urls/new", (req, res) => {
