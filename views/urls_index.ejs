@@ -10,8 +10,8 @@
 </head>
 <body style="font-size:20px; padding:50px;">
     <!-- Add EJS code here -->
-    <h1>TinnyApp</h1>
-    <h3>My URLS</h3>
+    <!-- <h1>TinnyApp</h1>
+    <h3>My URLS</h3> -->
     <a href="https://www.google.com/">Create New TinyURL</a>
     <div>
 
@@ -20,11 +20,11 @@
                 <li><%= url + ": " + urls[url] %></li>
                 <form method="POST" action="/urls/<%= url %>">
                     <input name="longURL" type="text"></input>
-                    <button type="submit" value="Edit" class ="btn btn-primary" >Edit</button>
+                    <button type="submit" value="Edit" class ="btn btn-success" >Edit</button>
                 </form>
 
                 <form method="GET" action="/urls/<%= url %>/delete">
-                    <input type="submit" value="Delete" class ="btn btn-primary" >
+                    <input type="submit" value="Delete" class ="btn btn-success" >
                 </form>
                 <br></br>
            <% } %>
