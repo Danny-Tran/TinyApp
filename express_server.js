@@ -12,8 +12,11 @@ var urDatabase = {
     "9sm5xK": "http://google.com"
 };
 
-
 var generateRandomString = () => Math.random().toString(36).substring(2,8)
+
+app.listen(PORT,() => {
+    console.log(`Example app litsening on port ${PORT}!`);
+});
 
 app.post("/urls", (req, res) => {
     // console.log(req.body);  // Log the POST request body to the console
@@ -40,12 +43,22 @@ app.post('/urls/:shortURL',(req,res) =>{
 
 app.post('/login', (req,res) =>{
     const username = req.body.username
-    res.cookie('cookies',username)
+    res.cookie('username',username)
+    res.redirect("urls")
+})
+
+app.post('/logout', (req,res) =>{
+    const username = req.body.username
+    // res.cookie('username',username)
+    // delete req.cookies['username'];
+    res.clearCookie("username")
     res.redirect("urls")
 })
 
 app.get("/urls/new", (req, res) => {
-    res.render("urls_new");
+    let templateVars = { username: req.cookies["username"]
+    };
+    res.render("urls_new", templateVars);
   });
 
 app.get("/u/:shortURL", (req, res) => {
@@ -57,9 +70,6 @@ app.get("/", (req, res) => {
     res.send("Hello!");
 });
 
-app.listen(PORT,() => {
-    console.log(`Example app litsening on port ${PORT}!`);
-});
 
 app.get("/urls.json",(req, res) => {
     res.json(urDatabase);
@@ -70,8 +80,11 @@ app.get("/hello", (req, res) => {
 });
 
 app.get("/urls",(req, res) => {
-    let templateVars = { urls: urDatabase};
+    let templateVars = { urls: urDatabase,
+        username: req.cookies["username"],
+    };
     res.render("urls_index", templateVars);
+    
 });
 
 app.get("/urls/:shortURL", (req, res) => {
