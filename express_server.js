@@ -38,31 +38,31 @@ app.post ("/register", (req,res) =>{
     var nid = generateRandomString()
     var nEmail = req.body.email
     var nPass = req.body.password
-    users[nid] = {id:nid, email: nEmail, password:nPass}
     // let templateVars = {
-    //     id: nid, 
-    //     email: nEmail, 
-    //     password: nPass
-    // }
-    let exituserEmail = false
-    for (i in users){
-        if (users[i].email ==  nEmail){
-            exituserEmail = true
+        //     id: nid, 
+        //     email: nEmail, 
+        //     password: nPass
+        // }
+        let exituserEmail = false
+        for (i in users){
+            if (users[i].email ==  nEmail){
+                exituserEmail = true
+            }
         }
-    }
-    if (!nEmail || !nPass) {
-        // res.status = 400;
-        res.send("Connection status 400")
-
-    } else if (exituserEmail) {
-        res.send("Account already exit, Please use a new email adress")
-    } else {
-        res.cookie("username", nEmail)
-        res.cookie("id", nid)
-        res.cookie("password", nPass)
-        res.redirect("/urls")
-        console.log(templateVars)
-    }
+        if (!nEmail || !nPass) {
+            // res.status = 400;
+           return res.send("Connection status 400")
+            
+        } else if (exituserEmail) {
+           return res.send("Account already exit, Please use a new email adress")
+        } 
+            res.cookie("username", nEmail)
+            res.cookie("id", nid)
+            res.cookie("password", nPass)
+            res.redirect("/urls")
+            // console.log(templateVars)
+        
+        users[nid] = {id:nid, email: nEmail, password:nPass}
 })
 
 // urls route

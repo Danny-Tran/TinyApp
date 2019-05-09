@@ -12,7 +12,7 @@
       <% if (username){ %>
         <form method="POST" action="/logout">
           <!-- <h3>Please login!</h3> -->
-          <h3>Currently login as <%=username%></h3>
+          <h3>Currently login as: <strong><%=username%></strong></h3>
           <button type="submit" value="Logout!" class ="btn btn-success" >Logout!</button>
         </form>
         <% } else { %>
