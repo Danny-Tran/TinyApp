@@ -12,13 +12,15 @@
     <div>
        <h2>Welcome to the resgistration page!!!</h2>
     </div>
-    <form action="/resgistration">
-        First name: <input type="text" name="FirstName" value="FirstName"><br>
-        Last name: <input type="text" name="LastName" value="LastName"><br>
-        Email Address <input type="text" name="EmailAddress" value="@example.com"><br>
-        Password: <input type="password" name="Password" value="*******"><br>
+    <form method="POST" action="/register">
+        Email:
+        <input type="email" name="email" placeholder="ID"><br>
+        
+        Password: 
+        <input type="password" name="password" placeholder="*******"><br>
         <input type="submit" class ="btn btn-success" value="Submit">
     </form>
+
     
     <div class="w3-bar w3-green">
             <div class="btn btn-success">Login</div>
