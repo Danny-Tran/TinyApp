@@ -10,12 +10,19 @@
   </head>
 
   <body style="font-size:20px; padding:50px;">
-
-  <h1>Login Page</h1>
-
-    <!-- <h3>Create TinyURL</h3> -->
-    <form class="form-inline" action="/login" method="POST">
-      
+        <% include ./partials/_header.ejs %>
+  <h2>Welcome to the Login page!</h2>
+  
+  <div>
+     </div>
+     <form method="POST" action="/login">
+         Email:
+         <input type="email" name="email" placeholder="ID"><br>
+         
+         Password: 
+         <input type="password" name="password" placeholder="*******"><br>
+         <input type="submit" class ="btn btn-success" value="Login">
+     </form>
     </form>
   </body>
 </html>

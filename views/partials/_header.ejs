@@ -7,23 +7,12 @@
 
 
 <body style="font-size:20px; padding:50px;">
-    <Div>
-      
-      <% if (username){ %>
-        <form method="POST" action="/logout">
-          <!-- <h3>Please login!</h3> -->
-          <h3>Currently login as: <strong><%=username%></strong></h3>
-          <button type="submit" value="Logout!" class ="btn btn-success" >Logout!</button>
-        </form>
-        <% } else { %>
-          <form method="POST" action="/login">
-            <input name="username" type="text" placeholder="Please enter your ID"></input> 
-            <input name="password" type="password" placeholder="Please enter your Password"></input> 
-            <button type="submit" value="Login!" class ="btn btn-success" >Login</button>
-          </form>
-          <% } %>
-          
-        </Div>
+
+  
+
+    <a class="btn btn-success" href="/login">Login</a>
+    <a class="btn btn-success" href="/Register">Register</a>
+  
 
 
 
