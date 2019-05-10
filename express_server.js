@@ -89,7 +89,6 @@ app.post("/urls", (req, res) => {
     var shortstring = generateRandomString();
     var longstring = req.body.longURL;
     urDatabase[shortstring] = longstring;
-    // console.log(urDatabase);
     res.redirect("/urls")
 });
 
@@ -139,7 +138,12 @@ app.get("/hello", (req, res) => {
 app.get("/urls/new", (req, res) => {
     let templateVars = { username: req.cookies["username"]
     };
-    res.render("urls_new", templateVars);
+    var username = req.cookies["username"]
+    if (username) {
+        res.render("urls_new", templateVars);
+    } else {
+        res.redirect("/login")
+    }
   });
 
 // URLS PAGE
@@ -149,8 +153,14 @@ app.get("/urls",(req, res) => {
         username: req.cookies["username"],
         email: users[username] && users[username].email || null
     };
+    if (username) {
+        res.render("urls_index", templateVars);
+    } else {
+        res.redirect("/login")
+    }
     console.log(templateVars);
-    res.render("urls_index", templateVars);
+
+
     
 });
 
