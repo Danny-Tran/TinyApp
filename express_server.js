@@ -23,7 +23,12 @@ const users = {
       id: "user2RandomID", 
       email: "user2@example.com", 
       password: "dishwasher-funk"
-    }
+    },
+    "user3RandomID": {
+        id: "user3RandomID", 
+        email: "danny@gmail.com", 
+        password: "123"
+      }
   }
 
 
@@ -51,32 +56,33 @@ app.post ("/register", (req,res) =>{
         return res.send("Account already exit, Please use a new email adress")
         } 
         res.cookie("username", nid)
-        
         res.redirect("/urls")
-        
-        
         users[nid] = {id:nid, email: nEmail, password:nPass}
 })
     
 // login route and redirect
  app.post('/login', (req,res) =>{
-        var nEmail = req.body.email
-        var nPass = req.body.password
-        let exituserEmail = false
-        for (i in users){
-            if (users[i].email ===  nEmail && users[i].password === nPass){
-                exituserEmail = true
-                res.cookie('username')
-                res.redirect("urls")
-            } else {
-                return res.send("akscbkjdvn")
+    const email = req.body.email;
+    const userID = emailLookup(email)
+    const password = req.body.password;
+
+    function emailLookup(email) {
+        for (let userID in users) {
+            if (email === users[userID].email) {
+                return userID;
             }
         }
-        if (!nEmail || !nPass) {
-        return res.send("Connection status 400")
-        } 
-})
-
+    }
+    if (!userID) {
+        res.send("Please eneter valid Email and Password!")
+    } else if (password !== users[userID].password) {
+        res.send("Please enter a valid Email and Password")
+    } else {
+        res.cookie("username", users[userID].id)
+        res.redirect("urls")
+        
+    }
+});
 
 // urls route
 app.post("/urls", (req, res) => {
