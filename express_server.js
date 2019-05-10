@@ -38,11 +38,7 @@ app.post ("/register", (req,res) =>{
     var nid = generateRandomString()
     var nEmail = req.body.email
     var nPass = req.body.password
-    // let templateVars = {
-        //     id: nid, 
-        //     email: nEmail, 
-        //     password: nPass
-        // }
+    
         let exituserEmail = false
         for (i in users){
             if (users[i].email ==  nEmail){
@@ -50,20 +46,36 @@ app.post ("/register", (req,res) =>{
             }
         }
         if (!nEmail || !nPass) {
-            // res.status = 400;
-           return res.send("Connection status 400")
-            
+        return res.send("Connection status 400")
         } else if (exituserEmail) {
-           return res.send("Account already exit, Please use a new email adress")
+        return res.send("Account already exit, Please use a new email adress")
         } 
-            res.cookie("username", nEmail)
-            res.cookie("id", nid)
-            res.cookie("password", nPass)
-            res.redirect("/urls")
-            // console.log(templateVars)
+        res.cookie("username", nid)
+        
+        res.redirect("/urls")
+        
         
         users[nid] = {id:nid, email: nEmail, password:nPass}
 })
+    
+// login route and redirect
+ app.post('/login', (req,res) =>{
+        var nid = generateRandomString()
+        var nEmail = req.body.email
+        var nPass = req.body.password
+        let exituserEmail = false
+        for (i in users){
+            if (users[i].email ==  nEmail){
+                exituserEmail = true
+            }
+        }
+        if (!nEmail || !nPass) {
+        return res.send("Connection status 400")
+        } 
+        res.cookie('username', nid)
+        res.redirect("urls")
+})
+
 
 // urls route
 app.post("/urls", (req, res) => {
@@ -89,18 +101,12 @@ app.post('/urls/:shortURL',(req,res) =>{
     res.redirect("/urls")
 })
 
-// login route and redirect
-app.post('/login', (req,res) =>{
-    const username = req.body.username
-    res.cookie('username',username)
-    res.redirect("urls")
-})
 
 // logout route and redirect
 app.post('/logout', (req,res) =>{
     const username = req.body.username
     res.clearCookie("username")
-    res.redirect("urls")
+    res.redirect("/login")
 })
 
 
@@ -131,10 +137,12 @@ app.get("/urls/new", (req, res) => {
 
 // URLS PAGE
 app.get("/urls",(req, res) => {
+    const username = req.cookies["username"]
     let templateVars = { urls: urDatabase,
         username: req.cookies["username"],
+        email: users[username].email || null
     };
-    // console.log(templateVars);
+    console.log(templateVars);
     res.render("urls_index", templateVars);
     
 });
@@ -151,5 +159,9 @@ app.get("/register", (req, res) => {
     res.render("urls_registration");
 })
 
+app.get("/login", (req, res) =>{
+
+    res.render("urls_login")
+})
 
 
