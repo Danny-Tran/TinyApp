@@ -140,7 +140,7 @@ app.get("/urls",(req, res) => {
     const username = req.cookies["username"]
     let templateVars = { urls: urDatabase,
         username: req.cookies["username"],
-        email: users[username].email || null
+        email: users[username] && users[username].email || null
     };
     console.log(templateVars);
     res.render("urls_index", templateVars);
@@ -160,8 +160,12 @@ app.get("/register", (req, res) => {
 })
 
 app.get("/login", (req, res) =>{
-
-    res.render("urls_login")
+    const username = req.cookies["username"]
+    let templateVars = { urls: urDatabase,
+        username: username,
+        email: users[username] && users[username].email || null
+    };
+    res.render("urls_login", templateVars)
 })
 
 
