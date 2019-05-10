@@ -60,20 +60,21 @@ app.post ("/register", (req,res) =>{
     
 // login route and redirect
  app.post('/login', (req,res) =>{
-        var nid = generateRandomString()
         var nEmail = req.body.email
         var nPass = req.body.password
         let exituserEmail = false
         for (i in users){
-            if (users[i].email ==  nEmail){
+            if (users[i].email ===  nEmail && users[i].password === nPass){
                 exituserEmail = true
+                res.cookie('username')
+                res.redirect("urls")
+            } else {
+                return res.send("akscbkjdvn")
             }
         }
         if (!nEmail || !nPass) {
         return res.send("Connection status 400")
         } 
-        res.cookie('username', nid)
-        res.redirect("urls")
 })
 
 

@@ -16,7 +16,8 @@
     <h3>My URLS</h3> -->
     <!-- <a href="https://www.google.com/">Create New TinyURL</a> -->
     <div>
-
+        <form method="POST" action="/logout">
+        <input type="submit" class ="btn btn-success" value="Logout">
         <ol>
             <% for(let url in urls) { %>
                 <li><%= url + ": " + urls[url] %></li>
