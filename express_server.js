@@ -8,10 +8,11 @@ app.use(cookieParser())
 app.set("view engine", "ejs");
 
 
-var urDatabase = {
-    "b2xVn2": "http://www.lighthouselabs.ca",
-    "9sm5xK": "http://google.com"
-};
+const urDatabase = {
+    b6UTxQ: { longURL: "https://www.tsn.ca", username: "aJ48lW" },
+    i3BoGr: { longURL: "https://www.google.ca", username: "aJ48lW" }
+  };
+  
 
 const users = { 
     "userRandomID": {
@@ -29,8 +30,32 @@ const users = {
         email: "danny@gmail.com", 
         password: "123"
       }
-  }
+}
 
+function urlForUser(username) {
+    let userURL = {};
+    for (var urlID in urDatabase){
+        let url = urDatabase[urlID]
+        if (url.username === username) {
+            userURL[urlID] = url;
+        }
+    }
+    return userURL;
+}
+
+app.get("/urls",(req, res) => {
+    const username = req.cookies["username"]
+    const userURLS = urlForUser(username)
+    let templateVars = { urls:urlForUser(req.cookies["username"]),
+        email: users[username] && users[username].email || null
+    };
+    if (username) {
+        res.render("urls_index", templateVars);
+    } else {
+        res.redirect("/login")
+    }
+    console.log(templateVars);
+});
 
 var generateRandomString = () => Math.random().toString(36).substring(2,8)
 
@@ -147,22 +172,13 @@ app.get("/urls/new", (req, res) => {
   });
 
 // URLS PAGE
-app.get("/urls",(req, res) => {
-    const username = req.cookies["username"]
-    let templateVars = { urls: urDatabase,
-        username: req.cookies["username"],
-        email: users[username] && users[username].email || null
-    };
-    if (username) {
-        res.render("urls_index", templateVars);
-    } else {
-        res.redirect("/login")
-    }
-    console.log(templateVars);
 
 
-    
-});
+
+
+
+
+
 
 // short url direct to long url page
 app.get("/urls/:shortURL", (req, res) => {
@@ -184,5 +200,6 @@ app.get("/login", (req, res) =>{
     };
     res.render("urls_login", templateVars)
 })
+
 
 
