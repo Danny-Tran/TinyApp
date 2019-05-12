@@ -1,12 +1,21 @@
-var express = require('express');
-var app = express();
-var PORT = 8080;
-const bodyParser = require("body-parser");
-var cookieParser = require('cookie-parser')
+const express = require('express');
+const app = express();
+const PORT = 8080;
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser')
 const bcrypt = require ('bcrypt')
+const cookieSession = require('cookie-session')
+app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
-app.use(cookieParser())
-app.set("view engine", "ejs");
+app.use(cookieParser());
+app.use(cookieSession({
+    name: 'session',
+    keys: ["key1"],
+  
+    // Cookie Options
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+  }));
+
 
 
 const urDatabase = {
@@ -38,12 +47,20 @@ function urlForUser(username) {
     for (var shortUrl in urDatabase){
         let url = urDatabase[shortUrl]
         
-        if (url.username === username) {
+        if (urDatabase[shortUrl].username === username) {
             userURL[shortUrl] = url.longstring;
         }
     }
     return userURL;
 } 
+
+function emailLookup(email) {
+    for (let userID in users) {
+        if (email === users[userID].email) {
+            return userID;
+        }
+    }
+}
 
 app.get("/urls",(req, res) => {
     const username = req.cookies["username"]
@@ -97,13 +114,7 @@ app.post ("/register", (req,res) =>{
     const userID = emailLookup(email)
     const password = req.body.password;
 
-    function emailLookup(email) {
-        for (let userID in users) {
-            if (email === users[userID].email) {
-                return userID;
-            }
-        }
-    }
+
 
     if (!userID) {
         res.send("Please eneter valid Email and Password!")
