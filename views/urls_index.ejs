@@ -22,7 +22,7 @@
             <ol>
                 <% for(let url in urls) { %>
                     <li><%= url + ": " + urls[url] %></li>
-                    <input name="longstring" type="text"></input>
+                    <input name="longURL" type="text"></input>
                 <form method="POST" action="/urls/<%= url %>">
                     <button type="submit" value="Edit" class ="btn btn-success">Edit</button>
                 </form>
