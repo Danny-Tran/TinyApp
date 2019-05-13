@@ -40,19 +40,19 @@ const users = {
         email: "danny@gmail.com", 
         password: "123"
       }
-}
+};
 
+// APP FUNCTIONS
 function urlForUser(id) { 
     let userURL = {}
     for (var shortURL in urDatabase){
         let url = urDatabase[shortURL]
-        
-        if (url.username === id) {
-            userURL[shortURL] = url.longURL;
+            if (url.username === id) {
+                userURL[shortURL] = url.longURL;
         }
     }
     return userURL;
-} 
+};
 
 function emailLookup(email) {
     for (let userID in users) {
@@ -60,11 +60,8 @@ function emailLookup(email) {
             return userID;
         }
     }
-}
-
-
+};
 var generateRandomString = () => Math.random().toString(36).substring(2,8)
-
 
 app.listen(PORT,() => {
     console.log(`Example app litsening on port ${PORT}!`);
@@ -73,32 +70,32 @@ app.listen(PORT,() => {
 
 // register route
 app.post ("/register", (req,res) =>{
-    var nid = generateRandomString()
-    var nEmail = req.body.email
-    var nPass = req.body.password
+    var nid = generateRandomString();
+    var nEmail = req.body.email;
+    var nPass = req.body.password;
     var hashedPassword = bcrypt.hashSync(nPass,10);
-        let exituserEmail = false
+        let exituserEmail = false;
         for (i in users){
             if (users[i].email ==  nEmail){
-                exituserEmail = true
+                exituserEmail = true;
             }
         }
         if (!nEmail || !nPass) {
-        return res.send("Connection status 400")
+            return res.send("Connection status 400")
         } else if (exituserEmail) {
-        return res.send("Account already exit, Please use a new email adress")
+            return res.send("Account already exit, Please use a new email adress")
         } 
         req.session.username = nid;
-        res.redirect("/urls")
+        res.redirect("/urls");
         users[nid] = {id:nid, email: nEmail, password:hashedPassword}
-        console.log (users)
+        console.log (users);
 });
 
     
 // login route and redirect
  app.post('/login', (req,res) =>{
     const email = req.body.email;
-    const userID = emailLookup(email)
+    const userID = emailLookup(email);
     const password = req.body.password;
 
     if (!userID) {
@@ -107,7 +104,7 @@ app.post ("/register", (req,res) =>{
         res.send("Please enter a valid Email and Password")
     } else {
         req.session.username = userID;
-        res.redirect("urls")
+        res.redirect("urls");
     }
 });
 
@@ -126,7 +123,7 @@ app.post("/urls", (req, res) => {
         username: req.session.username,
         users: users
     }
-    res.redirect("/urls")
+    res.redirect("/urls");
 });
 
 
@@ -134,7 +131,7 @@ app.post("/urls", (req, res) => {
 app.post('/urls/:shortURL/delete', (req, res) =>{
     const shortURL = req.params.shortURL
     delete urDatabase[shortURL]
-    res.redirect("/urls")
+    res.redirect("/urls");
 });
 
 
@@ -143,7 +140,7 @@ app.post('/urls/:shortURL',(req,res) =>{
     const shortURL = req.params.shortURL;
     const longURL = req.body.longURL;
     urDatabase[shortURL] = longURL;
-    res.redirect("/urls")
+    res.redirect("/urls");
 });
 
 
@@ -155,7 +152,7 @@ app.post('/logout', (req,res) =>{
 });
 
 
-
+// GET ROUTE
 app.get("/u/:shortURL", (req, res) => {
     const longURL = urDatabase[req.params.shortURL]
     res.redirect(longURL);
