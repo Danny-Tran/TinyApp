@@ -7,12 +7,12 @@ Tiny app build by Node and Express to able shotern long URLS
 
 ## Dependencies
 
-"bcrypt"
-"body-parser"
-"cookie-parser"
-"cookie-session"
-"ejs"
-"express"
+-bcrypt
+-body-parser
+-cookie-parser
+-cookie-session
+-ejs
+-express
 
 ## Getting started 
 - Install all dependencies
