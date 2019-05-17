@@ -22,17 +22,17 @@
             <ol>
                 <% for(let url in urls) { %>
                     <li><%= url + ": " + urls[url].longURL %></li>
-                    <input name="longURL" type="text"></input>
-                <form method="POST" action="/urls/<%= url %>">
-                    <button type="submit" value="Edit" class ="btn btn-success">Edit</button>
+
+                <form method="GET" action="/urls/<%=url%>">
+                    <button type="submit" value="Edit" class ="btn btn-success" name="longURL">Edit</button>
                 </form>
 
                 <form method="POST" action="/urls/<%= url %>/delete">
-                    <input type="submit" value="Delete" class ="btn btn-success" >
+                    <input type="submit" value="Delete" class ="btn btn-success">
                 </form>
 
                     <% } %>
-                </ol>
+            </ol>
 
 
 

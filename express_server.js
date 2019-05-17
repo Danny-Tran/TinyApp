@@ -159,7 +159,7 @@ app.post('/logout', (req,res) =>{
 
 // GET ROUTE
 app.get("/u/:shortURL", (req, res) => {
-    const longURL = urDatabase[req.params.shortURL]
+    const longURL = urDatabase[req.params.shortURL].longURL
     res.redirect(longURL);
 });
 
@@ -179,8 +179,7 @@ app.get("/hello", (req, res) => {
 
 // new page
 app.get("/urls/new", (req, res) => {
-    const templateVars = { username: req.session.username
-    };
+    const templateVars = { username: req.session.username};
     const username = req.session.username
     if (username) {
         res.render("urls_new", templateVars);
@@ -211,17 +210,18 @@ app.get("/urls",(req, res) => {
 
 // short url direct to long url page
 app.get("/urls/:shortURL", (req, res) => {
-    const username = req.session.username
+    const username = req.session.id
     const shortURL = req.params.shortURL
-    const user = user[username]
+    const user = users[username]
     if (username === user) {
         let templateVars = {
-            shortURL ,
+            shortURL: shortURL ,
             longURL: urDatabase[shortURL].longURL,
             id: req.session.username,
             user:users
         };
         res.render("urls_show", templateVars);
+
     } else {
         res.send("Access Denied")
     }
