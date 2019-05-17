@@ -12,7 +12,7 @@ app.use(cookieParser());
 app.use(cookieSession({
     name: 'session',
     keys: ["key1"],
-  
+
     // Cookie Options
     maxAge: 24 * 60 * 60 * 1000 // 24 hours
 }));
@@ -22,42 +22,43 @@ const urDatabase = {
     b6UTxQ: { longURL: "https://www.tsn.ca", username: "aJ48lW" },
     i3BoGr: { longURL: "https://www.google.ca", username: "aJ48lW" }
 };
-  
 
-const users = { 
+
+const users = {
     "userRandomID": {
-      id: "userRandomID", 
-      email: "user@example.com", 
+      id: "userRandomID",
+      email: "user@example.com",
       password: "purple-monkey-dinosaur"
     },
    "user2RandomID": {
-      id: "user2RandomID", 
-      email: "user2@example.com", 
+      id: "user2RandomID",
+      email: "user2@example.com",
       password: "dishwasher-funk"
     },
     "user3RandomID": {
-        id: "user3RandomID", 
-        email: "danny@gmail.com", 
+        id: "user3RandomID",
+        email: "danny@gmail.com",
         password: "123"
       }
 };
 
 // APP FUNCTIONS
-function urlForUser(id) { 
+function urlForUser(id) {
     let userURL = {}
     for (var shortURL in urDatabase){
         let url = urDatabase[shortURL]
             if (url.username === id) {
-                userURL[shortURL] = url.longURL;
+                userURL[shortURL] = url;
         }
     }
     return userURL;
 };
 
+//
 function emailLookup(email) {
-    for (let userID in users) {
-        if (email === users[userID].email) {
-            return userID;
+    for (let username in users) {
+        if (email === users[username].email) {
+            return username;
         }
     }
 };
@@ -84,14 +85,14 @@ app.post ("/register", (req,res) =>{
             return res.send("Connection status 400")
         } else if (exituserEmail) {
             return res.send("Account already exit, Please use a new email adress")
-        } 
+        }
         req.session.username = nid;
         res.redirect("/urls");
         users[nid] = {id:nid, email: nEmail, password:hashedPassword}
         console.log (users);
 });
 
-    
+
 // login route and redirect
  app.post('/login', (req,res) =>{
     const email = req.body.email;
@@ -135,7 +136,7 @@ app.post('/urls/:shortURL/delete', (req, res) =>{
 });
 
 
-// short url route 
+// short url route
 app.post('/urls/:shortURL',(req,res) =>{
     const shortURL = req.params.shortURL;
     const longURL = req.body.longURL;
@@ -188,19 +189,19 @@ app.get("/urls/new", (req, res) => {
 app.get("/urls",(req, res) => {
     const username = req.session.username;
     const userURLS = urlForUser(username);
-    let templateVars = { 
+    let templateVars = {
         urls: userURLS,
         email: users[username] && users[username].email || null,
-        id: req.session.username 
+        id: req.session.username
     };
 
-    
+
     if (username) {
         res.render("urls_index", templateVars);
     } else {
         res.redirect("/login")
     }
-    
+
 });
 
 
@@ -210,8 +211,8 @@ app.get("/urls/:shortURL", (req, res) => {
     const shortURL = req.params.shortURL
     const user = user[username]
     if (username === user) {
-        let templateVars = { 
-            shortURL , 
+        let templateVars = {
+            shortURL ,
             longURL: urDatabase[shortURL].longURL,
             id: req.session.username,
             user:users
