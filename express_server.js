@@ -89,7 +89,7 @@ app.post ("/register", (req,res) =>{
         req.session.username = nid;
         res.redirect("/urls");
         users[nid] = {id:nid, email: nEmail, password:hashedPassword}
-        console.log (users);
+        // console.log (users);
 });
 
 
@@ -136,14 +136,14 @@ app.post('/urls/:shortURL/delete', (req, res) =>{
 });
 
 
-// short url route
+// Edit route route
 app.post('/urls/:shortURL',(req,res) =>{
     const shortURL = req.params.shortURL;
     const longURL = req.body.longURL;
-    urDatabase[shortURL] = longURL;
+    urDatabase[shortURL].longURL = longURL;
+    console.log("this is your database",longURL)
     res.redirect("/urls");
 });
-
 
 
 // logout route and redirect
@@ -151,6 +151,10 @@ app.post('/logout', (req,res) =>{
     req.session.username = null;
     res.redirect("/login");
 });
+
+
+
+
 
 
 // GET ROUTE

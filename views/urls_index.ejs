@@ -10,18 +10,18 @@
 <body style="font-size:20px; padding:50px;">
         <% include ./partials/_header.ejs %>
         <h4>Currently Log in as: <%=email%> </h4>
-        
-        
+
+
             <form method="POST" action="/logout">
             <input type="submit" class ="btn btn-success" value="Logout">
             <a class="btn btn-success" href="/urls/new">New URL</a>
             </form>
-            
+
             <br>
             <br>
             <ol>
                 <% for(let url in urls) { %>
-                    <li><%= url + ": " + urls[url] %></li>
+                    <li><%= url + ": " + urls[url].longURL %></li>
                     <input name="longURL" type="text"></input>
                 <form method="POST" action="/urls/<%= url %>">
                     <button type="submit" value="Edit" class ="btn btn-success">Edit</button>
@@ -30,15 +30,15 @@
                 <form method="POST" action="/urls/<%= url %>/delete">
                     <input type="submit" value="Delete" class ="btn btn-success" >
                 </form>
-                    
+
                     <% } %>
                 </ol>
-        
-        
-    
 
-    
+
+
+
+
 </body>
 </html>
 
-  
+
